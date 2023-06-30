@@ -14,7 +14,7 @@ public class MyArrayList implements MyList {
         resize();
         size++;
         System.arraycopy(elements, 0, elements, 1, size);
-        elements[0] =value;
+        elements[0] = value;
 
     }
 
@@ -37,13 +37,12 @@ public class MyArrayList implements MyList {
 
     @Override
     public void add(String value, int index) {
-       // String[] tmp = new String [elements.length * 2];
+        validateIndex(index);
         size++;
-        System.arraycopy(elements, 3, elements, 4, 2);
-        elements[index+1] = value;
+        System.arraycopy(elements, index, elements, index + 1, size - index);
+        elements[index] = value;
 
-        }
-
+    }
 
     @Override
     public String get(int index) {
@@ -65,13 +64,14 @@ public class MyArrayList implements MyList {
 
     @Override
     public String delete(int index) {
+        validateIndex(index);
         String deletedElement = elements[index];
-        elements[index] = null;
-        size--;
         for (int i = index; i < size; i++) {
             elements[i] = elements[i + 1];
         }
+        size--;
         return deletedElement;
+
     }
 
     @Override
@@ -91,7 +91,7 @@ public class MyArrayList implements MyList {
 
     @Override
     public boolean isEmpty() {
-        if (size == 0 ) {
+        if (size == 0) {
             return true;
 
         } else {

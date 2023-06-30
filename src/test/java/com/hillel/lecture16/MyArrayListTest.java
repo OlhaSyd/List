@@ -63,7 +63,6 @@ class MyArrayListTest {
 
     }
 
-
     @Test
     void add() {
         // given
@@ -73,12 +72,15 @@ class MyArrayListTest {
         String[] expected = {"element#0", "element#1", "element#2", "qwerty", "element#3", "element#4"};
 
         // when
-        list.add("qwerty", 2);
+        list.add("qwerty", 3);
 
         // then
         Assertions.assertEquals(6, list.size());
         Assertions.assertEquals("element#0, element#1, element#2, qwerty, element#3, element#4, ", list.toString());
         equalsArrays(expected);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            list.add("qwerty", -3);
+        });
     }
 
     @Test
@@ -87,7 +89,6 @@ class MyArrayListTest {
         for (int i = 0; i < 5; i++) {
             list.addLast("element#" + i);
         }
-
         // when
         String deletedElement = list.delete(2);
         String[] expected = {"element#0", "element#1", "element#3", "element#4"};
@@ -96,6 +97,9 @@ class MyArrayListTest {
         Assertions.assertEquals("element#2", deletedElement);
         Assertions.assertEquals(4, list.size());
         equalsArrays(expected);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            list.delete(-3);
+        });
     }
 
     @Test
@@ -103,5 +107,62 @@ class MyArrayListTest {
 
         boolean result = list.isEmpty();
         Assertions.assertTrue(result);
+    }
+
+    @Test
+    void set() {
+        for (int i = 0; i < 5; i++) {
+            list.addLast("element#" + i);
+        }
+        String[] expected = {"element#0", "element#1", "element#2", "qwerty", "element#4"};
+        // when
+        list.set("qwerty", 3);
+        // then
+        Assertions.assertEquals(5, list.size());
+        Assertions.assertEquals("element#0, element#1, element#2, qwerty, element#4, ", list.toString());
+        Assertions.assertEquals("qwerty", list.get(3));
+        equalsArrays(expected);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            list.set("qwerty", -3);
+        });
+
+    }
+
+    @Test
+    void get() {
+        for (int i = 0; i < 5; i++) {
+            list.addLast("element#" + i);
+        }
+        String result = list.get(3);
+        String expected = "element#3";
+        // when
+        Assertions.assertEquals(expected, result);
+        // then
+        Assertions.assertEquals(5, list.size());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            list.get(-3);
+        });
+
+    }
+
+    @Test
+    void size() {
+
+        for (int i = 0; i < 5; i++) {
+            list.addLast("element#" + i);
+        }
+        Assertions.assertEquals(5, list.size());
+    }
+
+    @Test
+    void methodToString() {
+        for (int i = 0; i < 5; i++) {
+            list.addLast("element#" + i);
+        }
+        String expected = "element#0, element#1, element#2, element#3, element#4, ";
+
+        Assertions.assertEquals(expected, list.toString());
+        Assertions.assertEquals(5, list.size());
+
     }
 }
