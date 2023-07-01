@@ -66,7 +66,7 @@ public class MyArrayList implements MyList {
     public String delete(int index) {
         validateIndex(index);
         String deletedElement = elements[index];
-        for (int i = index; i < size; i++) {
+        for (int i = index; i < size-1; i++) {
             elements[i] = elements[i + 1];
         }
         size--;
